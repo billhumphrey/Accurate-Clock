@@ -1,61 +1,115 @@
-# Accurate-Clock
+#  Accurate Digital Clock Using Arduino
+
+This project demonstrates how to build a **simple yet accurate digital clock** with **date functionality** using an **Arduino** and a **16x2 I2C LCD display**.
+It does **not require an RTC (Real-Time Clock) module**, making it a cost-effective and educational way to understand software-based timekeeping.
 
 
-Overview
-This project demonstrates a simple clock with date functionality using an Arduino and a 16x2 LCD display. The clock does not require an RTC (Real-Time Clock) module, making it an affordable and straightforward solution for basic timekeeping needs. The project is designed by Prince Kushwaha from COSM Electronics.
+## Overview
 
-# Features
-Time Display: Shows the current time in 24-hour format on a 16x2 LCD.
-Date Display: Shows the current date.
-Time and Date Setting: Allows the user to set the time and date using buttons.
-Speed Adjustment: Compensates for the Arduino clock drift to maintain accurate time.
-# Components
-Arduino Board: Used to control the clock and manage the display and buttons.
-16x2 LCD Display: Displays the current time and date.
-Buttons:
-Mode Button (pin 2): Toggles between modes (set time, set date, and run).
-Hour/Day Button (pin 3): Increments the hour and day.
-Minute/Month Button (pin 4): Increments the minute and month.
-Buzzer (optional): Can be added for audible feedback.
-# Modes of Operation
-Show Time Mode: Displays the current time and date.
-Set Time Mode: Allows setting of the current time.
-Set Year Mode: Allows setting of the current year.
-Set Date Mode: Allows setting of the day and month.
-Set Speed Adjustment Mode: Allows adjustment of the speed correction for the Arduino clock drift.
-# Button Functions
-Mode Button (pin 2): Cycles through the different modes.
-Hour/Day Button (pin 3):
-In Set Time Mode: Increments the hour.
-In Set Date Mode: Increments the day.
-In Set Year Mode: Increases the year.
-In Set Speed Adjustment Mode: Increases the correction value.
-Minute/Month Button (pin 4):
-In Set Time Mode: Increments the minute.
-In Set Date Mode: Increments the month.
-In Set Year Mode: Decreases the year.
-In Set Speed Adjustment Mode: Decreases the correction value.
-# Setup Instructions
-Hardware Connections:
+The clock keeps track of **hours, minutes, days, months, and years** entirely through Arduino’s internal timing system.
+Although it doesn’t use an RTC, it includes a **speed adjustment feature** to compensate for clock drift, ensuring accurate long-term operation.
 
-Connect the 16x2 LCD display to the Arduino using the I2C interface.
-Connect the mode button to pin 2.
-Connect the hour/day button to pin 3.
-Connect the minute/month button to pin 4.
-(Optional) Connect a buzzer to an appropriate pin for audible feedback.
-# Software Setup:
+---
 
-Install the necessary libraries for the LCD display (Wire.h and LiquidCrystal_I2C.h).
-Upload the provided code to the Arduino.
-Initial Configuration:
+##  Features
 
-After powering up, use the mode button to navigate to the "Set Time" and "Set Date" modes to configure the current time and date.
-Adjust the speed correction value if necessary to ensure accurate timekeeping.
-# Usage
-Once set up, the clock will run continuously, displaying the current time and date.
-Use the buttons to adjust the time and date as needed.
-The speed correction mode can be used to fine-tune the clock's accuracy.
-# Notes
-The project uses a Julian date calculation method to handle date operations.
-The timer interrupt is configured to maintain an accurate millisecond count for timekeeping.
-Speed correction is necessary due to the inherent drift in the Arduino's clock.
+*  **Time Display:** Shows the current time in **24-hour format**.
+*  **Date Display:** Displays the current **day, month, and year**.
+*  **Manual Time & Date Setting:** Easily set or adjust time and date using buttons.
+*  **Speed Adjustment:** Fine-tune timing accuracy to counter Arduino’s internal clock drift.
+*  **Optional Buzzer:** Audible feedback during setting or alerts.
+
+---
+
+## Components Required
+
+| Component                | Quantity | Description                                  |
+| ------------------------ | -------- | -------------------------------------------- |
+| Arduino Board (Uno/Nano) | 1        | Main controller                              |
+| 16x2 LCD Display (I2C)   | 1        | For displaying time and date                 |
+| Push Buttons             | 3        | For mode, hour/day, and minute/month control |
+| Buzzer (optional)        | 1        | For audible feedback                         |
+| Jumper Wires             | —        | For connections                              |
+| Breadboard               | 1        | For assembly                                 |
+
+---
+
+## Circuit Connections
+
+| Component               | Arduino Pin        | Description                           |
+| ----------------------- | ------------------ | ------------------------------------- |
+| **LCD (I2C)**           | SDA → A4, SCL → A5 | Display connection                    |
+| **Mode Button**         | D2                 | Switch between modes                  |
+| **Hour/Day Button**     | D3                 | Increment hour/day/year               |
+| **Minute/Month Button** | D4                 | Increment minute/month/decrement year |
+| **Buzzer (optional)**   | Any digital pin    | Audible alert (optional)              |
+
+---
+
+## Modes of Operation
+
+| Mode                      | Description                                 |
+| ------------------------- | ------------------------------------------- |
+| **Show Time Mode**        | Displays current time and date              |
+| **Set Time Mode**         | Allows user to adjust hours and minutes     |
+| **Set Date Mode**         | Allows user to adjust day and month         |
+| **Set Year Mode**         | Allows user to set the year                 |
+| **Speed Adjustment Mode** | Adjusts correction factor for time accuracy |
+
+---
+
+## Button Functions
+
+| Button           | Pin | Function                                         |
+| ---------------- | --- | ------------------------------------------------ |
+| **Mode**         | 2   | Cycles through available modes                   |
+| **Hour/Day**     | 3   | Increments hour/day/year or increases correction |
+| **Minute/Month** | 4   | Increments minute/month or decreases correction  |
+
+---
+
+## Setup Instructions
+
+### **Hardware Setup**
+
+1. Connect the **16x2 I2C LCD** to the Arduino (`SDA → A4`, `SCL → A5`).
+2. Connect the three **buttons** to pins **2**, **3**, and **4** with appropriate pull-down or pull-up resistors.
+3. (Optional) Connect a **buzzer** for sound feedback.
+
+### **Software Setup**
+
+1. Install the following libraries:
+
+   * `Wire.h`
+   * `LiquidCrystal_I2C.h`
+2. Upload the provided Arduino code to your board.
+
+### **Initial Configuration**
+
+* Use the **Mode button** to switch between settings.
+* Set the **time**, **date**, and **year** using the respective buttons.
+* Adjust the **speed correction value** to improve accuracy.
+
+---
+
+## How It Works
+
+* The Arduino uses **timer interrupts** to maintain precise timekeeping in milliseconds.
+* A **Julian date calculation** ensures correct date handling (including leap years).
+* A **speed correction factor** is used to counter slight inaccuracies in the Arduino’s internal oscillator.
+
+---
+
+##  Usage
+
+* The clock automatically runs once powered on.
+* Use the **buttons** anytime to update the time or date.
+* Periodically adjust the **speed correction** for optimal long-term accuracy.
+
+---
+
+## Notes
+
+* The clock’s accuracy depends on the **stability of the Arduino’s oscillator**.
+* Use the **speed adjustment mode** to fine-tune drift correction.
+* Ideal for learning **software-based timekeeping** and **LCD interfacing** without an RTC module.
